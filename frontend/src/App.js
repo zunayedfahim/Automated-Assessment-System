@@ -1,24 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+// src/App.js
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import CreateAssessment from './CreateAssessment';
+import PreviousAssessments from './PreviousAssessments';
+import PreviousAssessmentsPage from './PreviousAssessmentsPage';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div>
+        <nav>
+          <ul>
+            <li>
+              <Link to="/create">Create New Assessment</Link>
+            </li>
+            <li>
+              <Link to="/previous">See Previous Assessments</Link>
+            </li>
+          </ul>
+        </nav>
+
+        <hr />
+
+        <Routes>
+          <Route path="/create" element={<CreateAssessment />} />
+          <Route path="/previous" element={<PreviousAssessments />} />
+          <Route path="/previous-page" element={<PreviousAssessmentsPage />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
