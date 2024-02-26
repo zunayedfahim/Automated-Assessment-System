@@ -15,17 +15,21 @@ const App = () => {
     // console.log(decoded);
 
     // Set user to global state manager
-    setUser(decoded);
+    setUser(decoded, credentialResponse.clientId);
+
+    // console.log(credentialResponse);
+    // console.log(decoded);
 
     // Store token in cookies
     setCookie("accessToken", credentialResponse.credential);
+    setCookie("clientId", credentialResponse.clientId);
 
     // TODO:Check if the user has given all the access
-    const hasAccess = hasGrantedAllScopesGoogle(
-      credentialResponse,
-      ".../auth/spreadsheets.readonly"
-    );
-    console.log(hasAccess);
+    // const hasAccess = hasGrantedAllScopesGoogle(
+    //   credentialResponse,
+    //   ".../auth/spreadsheets.readonly"
+    // );
+    // console.log(hasAccess);
 
     //Redirect to dashboard
     navigate("/dashboard");

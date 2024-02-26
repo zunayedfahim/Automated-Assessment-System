@@ -1,1 +1,1 @@
-GET http://localhost:8080/get
+GET http://localhost:5000/getAssessments
