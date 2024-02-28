@@ -14,6 +14,10 @@ const NewAssessment = () => {
         onSubmit={submitForAssessment}
         className="bg-gray-100 rounded-lg p-8 flex flex-col border border-green-500 ring-1"
       >
+        <div>
+          Share your sheets with this email -
+          automated-assessments@automated-assessment.iam.gserviceaccount.com
+        </div>
         <label htmlFor="google-sheet-1">Google Sheet 1:</label>
         <input
           name="google-sheet-1"

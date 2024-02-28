@@ -15,14 +15,13 @@ const App = () => {
     // console.log(decoded);
 
     // Set user to global state manager
-    setUser(decoded, credentialResponse.clientId);
+    setUser(decoded);
 
-    // console.log(credentialResponse);
-    // console.log(decoded);
+    console.log(credentialResponse);
+    console.log(decoded);
 
     // Store token in cookies
     setCookie("accessToken", credentialResponse.credential);
-    setCookie("clientId", credentialResponse.clientId);
 
     // TODO:Check if the user has given all the access
     // const hasAccess = hasGrantedAllScopesGoogle(

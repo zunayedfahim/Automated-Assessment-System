@@ -4,9 +4,8 @@ import { jwtDecode } from "jwt-decode";
 
 const getUserFromCookie = () => {
   const token = getCookie("accessToken") || null;
-  const clientId = getCookie("clientId") || null;
-  if (token && clientId) {
-    return { userInfo: jwtDecode(token), clientId };
+  if (token) {
+    return jwtDecode(token);
   } else {
     return null;
   }
@@ -14,7 +13,6 @@ const getUserFromCookie = () => {
 
 export const useGlobalStore = create((set) => ({
   user: getUserFromCookie(),
-  setUser: (userInfo, clientId) =>
-    set((state) => ({ user: { userInfo, clientId } })),
+  setUser: (userInfo) => set((state) => ({ user: userInfo })),
   removeUser: () => set({ user: null }),
 }));
