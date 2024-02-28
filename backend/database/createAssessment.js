@@ -1,10 +1,12 @@
 const connectDB = require("../config/database");
+const { default: sendMail } = require("./sendMail");
 const handler = {};
 
 handler.createAssessment = (req, res) => {
   const { email, deadline, googleSheet1, googleSheet2 } = req.body;
 
   // TODO: Handle the google sheets
+  sendMail(googleSheet1, googleSheet2);
 
   // INSERT into DB
   // sql =

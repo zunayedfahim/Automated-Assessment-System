@@ -9,8 +9,8 @@ content-type: application/json
 {
   "email": "fahim@gmail.com",
   "deadline": "2024-02-29 15:42:06", 
-  "googleSheet1": "https://docs.google.com/spreadsheets/d/1G_xifJ20O5dnFTBj-ccwLIVjnLPqoLPS/edit#gid=557544044", 
-  "googleSheet2": "https://docs.google.com/spreadsheets/d/1G_xifJ20O5dnFTBj-ccwLIVjnLPqoLPS/edit#gid=557544044"
+  "googleSheet1": "https://docs.google.com/spreadsheets/d/18l3z_n03uKZgIU0pcNv-9mjm-ErwPCqLbgzcn1DtOvw/edit#gid=0", 
+  "googleSheet2": "https://docs.google.com/spreadsheets/d/1K_TleWr3lIN2AxodRGd_jxF748oqPfxp_bSpONQ2u9U/edit#gid=0"
 }
 
 
