@@ -3,10 +3,11 @@ const { default: sendMail } = require("./sendMail");
 const handler = {};
 
 handler.createAssessment = (req, res) => {
-  const { email, deadline, googleSheet1, googleSheet2 } = req.body;
+  const { assessmentName, email, deadline, googleSheet1, googleSheet2 } =
+    req.body;
 
   // TODO: Handle the google sheets
-  sendMail(googleSheet1, googleSheet2);
+  sendMail(googleSheet1, googleSheet2, assessmentName);
 
   // INSERT into DB
   // sql =

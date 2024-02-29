@@ -1,5 +1,6 @@
 const { google } = require("googleapis");
 
+// Get Google Sheet Data
 const getSheetData = async (googleSheet1, googleSheet2) => {
   const auth = new google.auth.GoogleAuth({
     keyFile: "../credentials.json",
@@ -39,8 +40,8 @@ const getSheetData = async (googleSheet1, googleSheet2) => {
   };
 };
 
-// FIXME: create form method
-const createGoogleForm = async () => {
+// Create Google Form
+const createGoogleForm = async (sheetData, assessmentName) => {
   // testing email
   const emails = ["fahimzunayed@gmail.com", "nuruddin.zunayed@northsouth.edu"];
 
@@ -53,39 +54,79 @@ const createGoogleForm = async () => {
 
   const googleForms = google.forms({ version: "v1", auth: client });
 
-  // Define your form structure
-  const formDefinition = {
-    title: "Assessment1",
-  };
-
   const res = await googleForms.forms.create({
     resource: {
       info: {
-        title: "Assessment56",
+        title: assessmentName,
         documentTitle: "Automated Assessment",
       },
     },
   });
-  console.log(res.data);
+
+  // const data = {
+  //   formId: "1eNh5VsLSJJ-dfM8h9Y3oZJ5bovc1-6LyFAVb1t8AoLU",
+  //   info: { title: "Assessment56", documentTitle: "Automated Assessment" },
+  //   revisionId: "00000002",
+  //   responderUri:
+  //     "https://docs.google.com/forms/d/e/1FAIpQLSf5oJ_eJZ8_-x-H0OuFKsHIROlZl9YxKLsDpvWIUFoHQAZu4Q/viewform",
+  // };
+
+  const payload = sheetData.rubrics.map((item, index) => ({
+    createItem: {
+      item: {
+        questionItem: {
+          question: {
+            textQuestion: {
+              paragraph: true,
+            },
+          },
+        },
+        title: item.question,
+      },
+      location: {
+        index: index,
+      },
+    },
+  }));
+
+  const resUpdate = await googleForms.forms.batchUpdate({
+    formId: res.data.formId,
+    resource: {
+      requests: payload,
+    },
+  });
+
+  // Get the form by id
+  // const resUpdate = await googleForms.forms.get({
+  //   formId: data.formId,
+  // });
+
+  return res.data.responderUri;
 };
 
-const sendMail = async (googleSheet1, googleSheet2) => {
-  // TODO: Parse the spreadsheetId
+const sendMail = async (googleSheet1, googleSheet2, assessmentName) => {
+  // Parse the spreadsheetId
   googleSheet1 = googleSheet1.split("/")[5];
   googleSheet2 = googleSheet2.split("/")[5];
 
-  // TODO: Connect to google sheets
+  // Connect to google sheets
+  // return sheetData in { emails, rubrics }
   const sheetData = await getSheetData(googleSheet1, googleSheet2);
 
-  // TODO: Create the google form
+  // Create the google form
+  // const formLink = await createGoogleForm(sheetData, assessmentName);
+
+  const formLink =
+    "https://docs.google.com/forms/d/e/1FAIpQLScDnuc_Nhq4sSGNx1yAu9VzsGtfn03Uq4raf-9C6xdJHGSEVQ/viewform";
   // TODO: Mail the form to the students
 };
 
-// sendMail(
-//   "https://docs.google.com/spreadsheets/d/18l3z_n03uKZgIU0pcNv-9mjm-ErwPCqLbgzcn1DtOvw/edit#gid=0",
-//   "https://docs.google.com/spreadsheets/d/1K_TleWr3lIN2AxodRGd_jxF748oqPfxp_bSpONQ2u9U/edit#gid=0"
-// );
+sendMail(
+  "https://docs.google.com/spreadsheets/d/18l3z_n03uKZgIU0pcNv-9mjm-ErwPCqLbgzcn1DtOvw/edit#gid=0",
+  "https://docs.google.com/spreadsheets/d/1K_TleWr3lIN2AxodRGd_jxF748oqPfxp_bSpONQ2u9U/edit#gid=0",
+  "Assessment789"
+);
 
 // export default sendMail;
 
-createGoogleForm();
+// createGoogleForm();
