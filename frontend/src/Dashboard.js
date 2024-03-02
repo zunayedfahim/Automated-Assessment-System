@@ -7,16 +7,16 @@ const Dashboard = () => {
   const user = useGlobalStore((state) => state.user);
   const [assessments, setAssessments] = useState([]);
 
-  const fetchAssessments = async () => {
-    const res = await fetch(
-      `http://localhost:5000/getAssessments/${user.email}`
-    );
-    const data = await res.json();
-    setAssessments(data);
-  };
   useEffect(() => {
+    const fetchAssessments = async () => {
+      const res = await fetch(
+        `http://localhost:5000/getAssessments/${user.email}`
+      );
+      const data = await res.json();
+      setAssessments(data);
+    };
     fetchAssessments();
-  }, [assessments]);
+  }, [user.email]);
 
   return user ? (
     <div className="">
@@ -38,7 +38,7 @@ const Dashboard = () => {
                       {item.status}
                     </h2>
                     <h1 className="title-font sm:text-2xl text-xl font-medium text-gray-900 mb-3">
-                      Assessment {index + 1}
+                      {item.assessmentName}
                     </h1>
                     <p className="leading-relaxed mb-3">
                       Deadlie - {new Date(item.deadline).toLocaleString()}
