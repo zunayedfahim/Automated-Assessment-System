@@ -10,12 +10,13 @@ handler.createAssessment = async (req, res) => {
   const googleForm = await getGoogleFormLink(
     googleSheet1,
     googleSheet2,
-    assessmentName
+    assessmentName,
+    deadline
   );
 
   // INSERT into DB
   const sql =
-    "INSERT INTO assessments (assessmentName, email, deadline, status, googleSheet1, googleSheet2, googleForm) VALUES (?,?,?,?,?,?,?)";
+    "INSERT INTO assessments (assessmentName, email, deadline, status, googleSheet1, googleSheet2, googleForm, formId) VALUES (?,?,?,?,?,?,?,?)";
   connectDB.query(
     sql,
     [
@@ -25,7 +26,8 @@ handler.createAssessment = async (req, res) => {
       "PENDING",
       googleSheet1,
       googleSheet2,
-      googleForm,
+      googleForm.formLink,
+      googleForm.formId,
     ],
     (err, result) => {
       if (err) res.status(400).send({ message: err.message });

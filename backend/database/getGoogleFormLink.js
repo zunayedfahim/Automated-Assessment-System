@@ -60,7 +60,7 @@ const createGoogleForm = async (sheetData, assessmentName) => {
     },
   });
 
-  return res.data.responderUri;
+  return { formLink: res.data.responderUri, formId: res.data.formId };
 };
 
 // Get Google Sheet Data
@@ -83,7 +83,7 @@ const getSheetData = async (googleSheet1, googleSheet2) => {
     range: "Sheet1",
   });
 
-  const rubrics = rubricsSheet.data.values.map((item, index) => ({
+  let rubrics = rubricsSheet.data.values.map((item, index) => ({
     question: item[0],
     level: item[1],
     marks: item[2],
@@ -92,13 +92,32 @@ const getSheetData = async (googleSheet1, googleSheet2) => {
   //   Remove the first element from question array
   rubrics.shift();
 
+  rubrics = [
+    {
+      question: "Name",
+      level: 0,
+      marks: 0,
+    },
+    {
+      question: "ID",
+      level: 0,
+      marks: 0,
+    },
+    {
+      question: "Email",
+      level: 0,
+      marks: 0,
+    },
+    ...rubrics,
+  ];
+
   return {
     emails,
     rubrics,
   };
 };
 
-const sendMail = async (emails, formLink) => {
+const sendMail = async (emails, formLink, assessmentName, deadline) => {
   const CLIENT_ID =
     "1033870808730-fl6905bcqfrijcn5l6sbmfhcjeqt11cq.apps.googleusercontent.com";
   const CLIENT_SECRET = "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";
@@ -135,7 +154,9 @@ const sendMail = async (emails, formLink) => {
     from: "Automated Assessment <automated-assessments@automated-assessment.iam.gserviceaccount.com>",
     to: `${emails.join(", ")}`,
     subject: "Fillup the Assessment Form",
-    text: `This is your assessment form. Submit it before the deadline. ${formLink}`,
+    text: `This is your ${assessmentName} form. Submit it before ${new Date(
+      deadline
+    ).toDateString()}. ${formLink}`,
   };
 
   const info = await transport.sendMail(mailOptions);
@@ -147,7 +168,8 @@ const sendMail = async (emails, formLink) => {
 handler.getGoogleFormLink = async (
   googleSheet1,
   googleSheet2,
-  assessmentName
+  assessmentName,
+  deadline
 ) => {
   // Parse the spreadsheetId
   googleSheet1 = googleSheet1.split("/")[5];
@@ -158,11 +180,16 @@ handler.getGoogleFormLink = async (
   const sheetData = await getSheetData(googleSheet1, googleSheet2);
 
   // Create the google form
-  const formLink = await createGoogleForm(sheetData, assessmentName);
+  const formRes = await createGoogleForm(sheetData, assessmentName);
 
   // Mail the form to the students
-  const mailSent = await sendMail(sheetData.emails, formLink);
-  return formLink;
+  const mailSent = await sendMail(
+    sheetData.emails,
+    formRes.formLink,
+    assessmentName,
+    deadline
+  );
+  return { formLink: formRes.formLink, formId: formRes.formId };
 };
 
 module.exports = handler;

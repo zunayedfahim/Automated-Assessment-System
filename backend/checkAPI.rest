@@ -7,13 +7,23 @@ POST http://localhost:5000/createAssessment
 content-type: application/json
 
 {
-  "assessmentName": "Assessment-6000",
-  "email": "fahim@gmail.com",
+  "assessmentName": "Assessment-9000",
+  "email": "fahimzunayed@gmail.com",
   "deadline": "2024-02-29 15:42:06", 
   "googleSheet1": "https://docs.google.com/spreadsheets/d/18l3z_n03uKZgIU0pcNv-9mjm-ErwPCqLbgzcn1DtOvw/edit#gid=0", 
   "googleSheet2": "https://docs.google.com/spreadsheets/d/1K_TleWr3lIN2AxodRGd_jxF748oqPfxp_bSpONQ2u9U/edit#gid=0"
 }
 
+###
+
+POST http://localhost:5000/markResponses 
+content-type: application/json
+
+{
+  "formId": "1O_YfhTEGVk03a8gJUY7hQaVjnLdcTdQf8Fqv4HjtTO8", 
+  "email": "fahimzunayed@gmail.com",
+  "assessmentName": "Assessment-9000"
+}
 
 ###
 GET https://sheets.googleapis.com/v4/spreadsheets/18l3z_n03uKZgIU0pcNv-9mjm-ErwPCqLbgzcn1DtOvw
