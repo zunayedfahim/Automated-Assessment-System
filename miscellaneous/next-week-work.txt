@@ -1,0 +1,17 @@
+today - 4/3/24
+
+1. install a llm
+2. wrap an api around the model
+3. 20 different prompting strategy
+4. 50 different questions 
+5. at least 2 rubrics for each question
+6. sample answer for each rubric
+7. measure the level of answer using llm
+
+
+report: 
+1. appendix - dataset, prompts
+2. main part - how the model has been developed? different prompting strategy, comparison between different strategy.
+
+sources
+
