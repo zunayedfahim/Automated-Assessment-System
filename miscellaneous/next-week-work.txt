@@ -15,3 +15,11 @@ report:
 
 sources
 
+
+q1
+
+l1->marks->sample answer
+l2->marks->sample answer
+l3->marks->sample answer
+l4->marks->sample answer
+
