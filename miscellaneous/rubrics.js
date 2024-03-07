@@ -12,6 +12,11 @@ const rubrics = [
         marks: 5,
         sampleAnswer: "Sample Answer",
       },
+      {
+        id: 3,
+        marks: 15,
+        sampleAnswer: "Sample Answer",
+      },
     ],
   },
   {
@@ -25,6 +30,11 @@ const rubrics = [
       {
         id: 2,
         marks: 5,
+        sampleAnswer: "Sample Answer",
+      },
+      {
+        id: 3,
+        marks: 10,
         sampleAnswer: "Sample Answer",
       },
     ],
