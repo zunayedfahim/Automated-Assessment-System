@@ -17,6 +17,11 @@ const rubrics = [
         marks: 1,
         sampleAnswer: "Cell division is how cells make copies of themselves. It's important for growth and repair, but the details of the process and its significance are unclear.",
       },
+      {
+        id: 3,
+        marks: 15,
+        sampleAnswer: "Sample Answer",
+      },
     ],
   },
   {
@@ -30,6 +35,11 @@ const rubrics = [
       {
         id: 2,
         marks: 5,
+        sampleAnswer: "Sample Answer",
+      },
+      {
+        id: 3,
+        marks: 10,
         sampleAnswer: "Sample Answer",
       },
     ],
