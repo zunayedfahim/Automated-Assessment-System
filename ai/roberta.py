@@ -1,7 +1,5 @@
 from transformers import AutoModelForQuestionAnswering, AutoTokenizer, pipeline
 
-
-
 def roberta_model():
     model_name = "deepset/tinyroberta-squad2"
 
@@ -13,5 +11,4 @@ def roberta_model():
     }
     res = nlp(QA_input)
 
-
-    return res
+    return res["answer"]
