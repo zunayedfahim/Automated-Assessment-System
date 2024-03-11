@@ -1,0 +1,40 @@
+
+1.
+    "<s>[INST] {question} [/INST]"
+    precision: 0.8350074887275696
+    source: https://community.aws/content/2dFNOnLVQRhyrOrMsloofnW0ckZ/how-to-prompt-mistral-ai-models-and-why?lang=en
+
+2.
+    "<s>[INST] You're given a question. The highest marks for the given question is 4. Now just answer the question only. [/INST] question: {question}"
+    precision: 0.8187879323959351
+    source: https://community.aws/content/2dFNOnLVQRhyrOrMsloofnW0ckZ/how-to-prompt-mistral-ai-models-and-why?lang=en
+
+3.
+    "<s>[INST] Question: {question} [/INST]</s>[INST] Answer the question in 4-5 sentences. [/INST]"
+    precision: 0.7859143614768982
+    source: https://www.promptingguide.ai/models/mixtral
+
+4.
+    "<s>Question: {question} Answer: {answer}</s>[INST] You're given a question and an answer. The answer is categorized as level 3 which contain 4 marks. Now answer the question in 4-5 sentences. [/INST]"
+    precision: 0.7957883477210999
+    source: https://www.promptingguide.ai/models/mixtral
+
+5.
+    "<s>{question}</s>[INST] Answer the given question as if you are a student. [/INST]"
+    precision: 0.8463257551193237
+    source: https://docs.mistral.ai/guides/prompting-capabilities/
+
+6.
+    "[INST] Suppose you're an examiner. Answer the given question according to your expectation from your students. [/INST] <s>Question: {question}</s>"
+    precision: 0.8051004409790039
+    source: https://docs.mistral.ai/guides/prompting-capabilities/
+
+7.
+    "<s>[INST] Question: {question} [/INST]"
+    precision: 0.8160771727561951
+    source: https://community.aws/content/2dFNOnLVQRhyrOrMsloofnW0ckZ/how-to-prompt-mistral-ai-models-and-why?lang=en
+
+8.
+    "<s> Question: {question} Context: {answer}</s> [INST] Answer the given question according to the given context. [/INST]"
+    precision: 0.8242285251617432
+    source: https://amaiya.github.io/onprem/examples.html

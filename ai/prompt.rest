@@ -1,1 +1,7 @@
-GET http://localhost:8000/
+POST http://localhost:8000/
+content-type: application/json
+
+{
+  "question": "How do arteries differ from veins?", 
+  "answer": "Arteries carry oxygen-rich blood away from the heart, while veins return deoxygenated blood. Arteries have thicker, muscular walls to handle high pressure, while veins have thinner walls and valves to prevent backflow."
+}
