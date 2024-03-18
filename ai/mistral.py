@@ -9,7 +9,9 @@ metrics = load('bertscore')
 def mistral_model(question, answer):
 
     # Set gpu_layers to the number of layers to offload to GPU. Set to 0 if no GPU acceleration is available on your system.
-    llm = AutoModelForCausalLM.from_pretrained("TheBloke/Mistral-7B-v0.1-GGUF", model_file="mistral-7b-v0.1.Q4_K_M.gguf", model_type="mistral", gpu_layers=0)
+    # llm = AutoModelForCausalLM.from_pretrained("TheBloke/Mistral-7B-v0.1-GGUF", model_file="mistral-7b-v0.1.Q4_K_M.gguf", model_type="mistral", gpu_layers=0)
+
+    llm = AutoModelForCausalLM.from_pretrained("TheBloke/Mistral-7B-Instruct-v0.1-GGUF", model_file="mistral-7b-instruct-v0.1.Q4_K_M.gguf", model_type="mistral", gpu_layers=0)
 
     # mistral_prompt = f"<s>[INST] {question} [/INST]"
     # mistral_prompt = f"<s>[INST] You're given a question. The highest marks for the given question is 4. Now just answer the question only. [/INST] question: {question}"
@@ -20,9 +22,11 @@ def mistral_model(question, answer):
     # mistral_prompt = f"<s>[INST] Question: {question} [/INST]"
     # mistral_prompt = f"<s> Question: {question} Context: {answer}</s> [INST] Answer the given question according to the given context. [/INST]"\
 
-    mistral_prompt = f"Question: {question} Answer: {answer}. [INST] You're given a question and an answer.  How much would you mark the answer? 1, 2, 3, or 4? 1 being the lowest and 4 being the highest. Give me only the score. [/INST]"
+    mistral_prompt = f"[INST]You're given a question and an answer. How much would you mark the answer? 1, 2, 3, or 4? 1 being the lowest and 4 being the highest. Give me only the score. [/INST] \n <s>Question: {question} \n Answer: {answer}.</s>"
 
     res = llm(mistral_prompt)
+
+
 
     return res
     # accuracy_score = metrics.compute(references=[answer], predictions=[res], lang="en")
