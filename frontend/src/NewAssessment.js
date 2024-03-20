@@ -84,6 +84,7 @@ const NewAssessment = () => {
           className="inputBox"
           title="Format: (Question, Level, Marks)"
         />
+        TODO: Create input for pdf files.
         <label htmlFor="deadline">Deadline</label>
         <input
           name="deadline"
@@ -94,7 +95,6 @@ const NewAssessment = () => {
           min={new Date().toISOString().split("T")[0]}
           required
         />
-
         <button
           id="submitBtn"
           type="submit"
