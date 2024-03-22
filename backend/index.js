@@ -17,6 +17,12 @@ app.get("/getAssessments/:email", getAssessments);
 // Create the Assessment form
 app.post("/createAssessment", createAssessment);
 
+// Upload Pdf
+app.post("/uploadPdf", (req, res) => {
+  console.log(req.body);
+  res.send("Pdf Uploaded");
+});
+
 // Marks the Form Responses
 app.post("/markResponses", markResponses);
 

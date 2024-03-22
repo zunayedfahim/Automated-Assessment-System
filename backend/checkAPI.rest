@@ -28,3 +28,10 @@ content-type: application/json
 ###
 GET https://sheets.googleapis.com/v4/spreadsheets/18l3z_n03uKZgIU0pcNv-9mjm-ErwPCqLbgzcn1DtOvw
 
+###
+POST http://localhost:5000/uploadPdf 
+content-type: application/json
+
+{
+  "pdf": 
+}

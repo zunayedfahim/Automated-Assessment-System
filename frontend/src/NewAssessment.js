@@ -10,6 +10,7 @@ const NewAssessment = () => {
     googleSheet1: "",
     googleSheet2: "",
     deadline: "",
+    pdf: null,
   });
 
   const handleChange = (e) => {
@@ -17,25 +18,34 @@ const NewAssessment = () => {
   };
   const submitForAssessment = async (e) => {
     e.preventDefault();
-    document.getElementById("submitBtn").disabled = true;
+    // document.getElementById("submitBtn").disabled = true;
 
-    const payload = { email: user.email, ...inputFields };
+    // const payload = { email: user.email, ...inputFields };
+    let payload = new FormData();
+    payload.append("email", user.email);
+    payload.append("assessmentName", inputFields.assessmentName);
+    payload.append("googleSheet1", inputFields.googleSheet1);
+    payload.append("googleSheet2", inputFields.googleSheet2);
+    payload.append("deadline", inputFields.deadline);
+    payload.append("pdf", inputFields.pdf);
 
-    const res = await fetch("http://localhost:5000/createAssessment", {
-      method: "POST",
-      cache: "no-cache",
-      body: JSON.stringify(payload),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    console.log(payload);
 
-    if (res.ok) {
-      navigate("/dashboard");
-    }
+    // const res = await fetch("http://localhost:5000/createAssessment", {
+    //   method: "POST",
+    //   cache: "no-cache",
+    //   body: JSON.stringify(payload),
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    // });
+
+    // if (res.ok) {
+    //   navigate("/dashboard");
+    // }
   };
   return user ? (
-    <div className="flex items-center justify-center h-screen">
+    <div className="flex items-center justify-center h-screen my-10">
       <form
         onSubmit={submitForAssessment}
         className="bg-gray-100 rounded-lg p-8 flex flex-col border border-green-500 ring-1"
@@ -84,7 +94,18 @@ const NewAssessment = () => {
           className="inputBox"
           title="Format: (Question, Level, Marks)"
         />
-        TODO: Create input for pdf files.
+        <label htmlFor="pdf">PDF Files</label>
+        <input
+          type="file"
+          name="pdf"
+          accept=".pdf"
+          onChange={(e) => {
+            setInputFields({ ...inputFields, pdf: e.target.files });
+          }}
+          className="inputBox"
+          multiple
+        />
+
         <label htmlFor="deadline">Deadline</label>
         <input
           name="deadline"
