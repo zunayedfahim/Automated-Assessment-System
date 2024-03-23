@@ -33,5 +33,5 @@ POST http://localhost:5000/uploadPdf
 content-type: application/json
 
 {
-  "pdf": 
+  "pdf": "http://localhost:5000/uploadPdf "
 }
