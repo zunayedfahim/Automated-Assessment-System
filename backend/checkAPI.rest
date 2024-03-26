@@ -35,3 +35,8 @@ content-type: application/json
 {
   "pdf": "http://localhost:5000/uploadPdf "
 }
+
+
+###
+
+GET http://localhost:5000/test

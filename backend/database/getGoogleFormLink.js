@@ -9,6 +9,8 @@ const auth = new google.auth.GoogleAuth({
     "https://www.googleapis.com/auth/spreadsheets",
     "https://www.googleapis.com/auth/forms.body",
     "https://www.googleapis.com/auth/gmail.send",
+    "https://www.googleapis.com/auth/drive.file",
+    "https://www.googleapis.com/auth/drive",
   ],
 });
 
@@ -117,13 +119,38 @@ const getSheetData = async (googleSheet1, googleSheet2) => {
   };
 };
 
+const setFormPermissions = async (formId, emails, assessmentName, deadline) => {
+  const client = await auth.getClient();
+
+  const googleDrive = google.drive({ version: "v3", auth: client });
+
+  // remove the first element from the emails array
+  emails.shift();
+
+  for (let i = 0; i < emails.length; i++) {
+    const resPermissions = await googleDrive.permissions.create({
+      resource: {
+        role: "reader",
+        type: "user",
+        emailAddress: emails[i],
+      },
+      emailMessage: `This is your ${assessmentName} form. Submit it before ${new Date(
+        deadline
+      ).toDateString()}.`,
+      fileId: formId,
+    });
+  }
+
+  return formId;
+};
+
 const sendMail = async (emails, formLink, assessmentName, deadline) => {
   const CLIENT_ID =
     "1033870808730-fl6905bcqfrijcn5l6sbmfhcjeqt11cq.apps.googleusercontent.com";
   const CLIENT_SECRET = "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";
   const REDIRECT_URI = "https://developers.google.com/oauthplayground/";
   const REFRESH_TOKEN =
-    "1//046GRRSUP3_GtCgYIARAAGAQSNwF-L9IrDpRsHp9Hp8-rBo_bTJV5n9bdTFK46kurKJL_uQfwGYTKBqcDP-q7vt4_hAKwI1ax04M";
+    "1//045evIiuH7Ou8CgYIARAAGAQSNwF-L9IrwS3mtWYBZSHru5j5e3H-tY2CyMu3SWCogKEi-vAz54a1SjwxFi8vudB94pca7Pl2xho";
 
   // Set up OAuth2 client
   const oAuth2Client = new google.auth.OAuth2(
@@ -183,12 +210,18 @@ handler.getGoogleFormLink = async (
   const formRes = await createGoogleForm(sheetData, assessmentName);
 
   // Mail the form to the students
-  const mailSent = await sendMail(
+  const formUrl = await setFormPermissions(
+    formRes.formId,
     sheetData.emails,
-    formRes.formLink,
     assessmentName,
     deadline
   );
+  // const mailSent = await sendMail(
+  //   sheetData.emails,
+  //   formRes.formLink,
+  //   assessmentName,
+  //   deadline
+  // );
   return { formLink: formRes.formLink, formId: formRes.formId };
 };
 

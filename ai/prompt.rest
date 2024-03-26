@@ -2,6 +2,7 @@ POST http://localhost:8000/
 content-type: application/json
 
 {
-  "question": "How do arteries differ from veins?", 
-  "answer": "Arteries carry oxygen-rich blood away from the heart, while veins return deoxygenated blood. Arteries have thicker, muscular walls to handle high pressure, while veins have thinner walls and valves to prevent backflow."
+  "question": "Why is it impossible to measure the absolute magnitude of the enthalpy of an object or a compound?", 
+  "answer": "Enthalpy is how hot or cold something is, and it can be high or low depending on the material. I don't know why you can't just measure it directly."
 }
+

@@ -9,8 +9,8 @@ const NewAssessment = () => {
     assessmentName: "",
     googleSheet1: "",
     googleSheet2: "",
-    deadline: "",
     pdf: null,
+    deadline: "",
   });
 
   const handleChange = (e) => {
@@ -18,7 +18,7 @@ const NewAssessment = () => {
   };
   const submitForAssessment = async (e) => {
     e.preventDefault();
-    // document.getElementById("submitBtn").disabled = true;
+    document.getElementById("submitBtn").disabled = true;
 
     // const payload = { email: user.email, ...inputFields };
     let payload = new FormData();
@@ -27,28 +27,48 @@ const NewAssessment = () => {
     payload.append("googleSheet1", inputFields.googleSheet1);
     payload.append("googleSheet2", inputFields.googleSheet2);
     payload.append("deadline", inputFields.deadline);
-    payload.append("pdf", inputFields.pdf);
 
-    console.log(payload);
+    for (let i = 0; i < inputFields.pdf.length; i++) {
+      payload.append("pdf", inputFields.pdf[i]);
+    }
 
-    // const res = await fetch("http://localhost:5000/createAssessment", {
+    // Display the key/value pairs
+    // for (var pair of payload.entries()) {
+    //   console.log(pair[0] + ", " + pair[1]);
+    // }
+
+    // const res = await fetch("http://localhost:5000/uploadPdf", {
     //   method: "POST",
     //   cache: "no-cache",
-    //   body: JSON.stringify(payload),
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
+    //   body: payload,
+    //   // headers: {
+    //   //   "Content-Type": "multipart/form-data",
+    //   // },
     // });
 
-    // if (res.ok) {
-    //   navigate("/dashboard");
-    // }
+    // const data = await res.json();
+    // console.log(data.message);
+
+    const res = await fetch("http://localhost:5000/createAssessment", {
+      method: "POST",
+      cache: "no-cache",
+      body: payload,
+      // headers: {
+      //   "Content-Type": "application/json",
+      // },
+    });
+
+    if (res.ok) {
+      navigate("/dashboard");
+    }
   };
   return user ? (
     <div className="flex items-center justify-center h-screen my-10">
       <form
         onSubmit={submitForAssessment}
         className="bg-gray-100 rounded-lg p-8 flex flex-col border border-green-500 ring-1"
+        encType="multipart/form-data"
+        method="post"
       >
         <div className="mx-auto">
           <span className="text-red-600 font-bold">NOTE:</span> Share your

@@ -5,7 +5,6 @@ import { Navigate, useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
   const user = useGlobalStore((state) => state.user);
-  const navigate = useNavigate();
   const [assessments, setAssessments] = useState([]);
 
   useEffect(() => {
@@ -69,6 +68,9 @@ const Dashboard = () => {
                     <h1 className="title-font sm:text-2xl text-xl font-medium text-gray-900 mb-3">
                       {item.assessmentName}
                     </h1>
+                    <p className="leading-relaxed mb-3">
+                      Created - {new Date(item.createdAt).toLocaleString()}
+                    </p>
                     <p className="leading-relaxed mb-3">
                       Deadline - {new Date(item.deadline).toDateString()}
                     </p>

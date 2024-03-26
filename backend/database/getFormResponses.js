@@ -123,8 +123,19 @@ handler.getFormResponses = async (formId, assessmentName, email) => {
             responseDetails.email = answer;
           } else {
             // TODO: Evaluate the answer
-            const marks = Math.floor(Math.random() * 5) + 1;
-            responseDetails.marks += marks;
+            const payload = { question: title, answer };
+            const score = await fetch("http://127.0.0.1:8000/", {
+              method: "POST",
+              body: JSON.stringify(payload),
+              headers: {
+                "Content-Type": "application/json",
+              },
+            });
+
+            const data = await score.json();
+
+            responseDetails.marks += data;
+            // const marks = Math.floor(Math.random() * 5) + 1;
           }
         }
       }
