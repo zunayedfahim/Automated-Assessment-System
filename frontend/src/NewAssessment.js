@@ -63,7 +63,7 @@ const NewAssessment = () => {
     }
   };
   return user ? (
-    <div className="flex items-center justify-center h-screen my-10">
+    <div className="flex items-center justify-center my-10">
       <form
         onSubmit={submitForAssessment}
         className="bg-gray-100 rounded-lg p-8 flex flex-col border border-green-500 ring-1"
@@ -77,6 +77,8 @@ const NewAssessment = () => {
         <div className="font-bold underline mb-5 text-xs">
           automated-assessments@automated-assessment.iam.gserviceaccount.com
         </div>
+
+        {/* Assessment Name input */}
         <label htmlFor="assessmentName">Assessment Name</label>
         <input
           autoFocus
@@ -89,6 +91,8 @@ const NewAssessment = () => {
           size="50"
           className="inputBox"
         />
+
+        {/* Email sheet link input */}
         <label htmlFor="googleSheet1">Email Sheet Link</label>
         <input
           name="googleSheet1"
@@ -99,9 +103,12 @@ const NewAssessment = () => {
           pattern="https://docs.google.com/spreadsheets/.*"
           required
           size="50"
-          className="inputBox"
-          title="Format: (Name,ID,Email)"
+          className="inputBox mb-0"
+          title="https://docs.google.com/spreadsheets/..."
         />
+        <p className="mb-5 text-xs">Format: (Name,ID,Email)</p>
+
+        {/* Rubrics sheet link input */}
         <label htmlFor="googleSheet2">Rubrics Sheet Link</label>
         <input
           name="googleSheet2"
@@ -111,9 +118,12 @@ const NewAssessment = () => {
           placeholder="https://docs.google.com/spreadsheets/..."
           pattern="https://docs.google.com/spreadsheets/.*"
           required
-          className="inputBox"
-          title="Format: (Question, Level, Marks)"
+          className="inputBox mb-0"
+          title="https://docs.google.com/spreadsheets/..."
         />
+        <p className="mb-5 text-xs">Format: (Question, Level, Marks)</p>
+
+        {/* PDF files input */}
         <label htmlFor="pdf">PDF Files</label>
         <input
           type="file"
@@ -124,8 +134,10 @@ const NewAssessment = () => {
           }}
           className="inputBox"
           multiple
+          required
         />
 
+        {/* Deadline input */}
         <label htmlFor="deadline">Deadline</label>
         <input
           name="deadline"
@@ -136,6 +148,8 @@ const NewAssessment = () => {
           min={new Date().toISOString().split("T")[0]}
           required
         />
+
+        {/* Submit button */}
         <button
           id="submitBtn"
           type="submit"
