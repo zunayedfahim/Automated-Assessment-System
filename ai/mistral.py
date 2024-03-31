@@ -12,7 +12,9 @@ def mistral_model(question, answer):
     # Set gpu_layers to the number of layers to offload to GPU. Set to 0 if no GPU acceleration is available on your system.
     # llm = AutoModelForCausalLM.from_pretrained("TheBloke/Mistral-7B-v0.1-GGUF", model_file="mistral-7b-v0.1.Q4_K_M.gguf", model_type="mistral", gpu_layers=0)
 
-    llm = AutoModelForCausalLM.from_pretrained("TheBloke/Mistral-7B-Instruct-v0.1-GGUF", model_file="mistral-7b-instruct-v0.1.Q4_K_M.gguf", model_type="mistral", gpu_layers=0)
+    # llm = AutoModelForCausalLM.from_pretrained("TheBloke/Mistral-7B-Instruct-v0.1-GGUF", model_file="mistral-7b-instruct-v0.1.Q4_K_M.gguf", model_type="mistral", gpu_layers=0)
+
+    llm = AutoModelForCausalLM.from_pretrained(r"D:\Programming\Projects\Automated-Assessment-System\ai\models--TheBloke--Mistral-7B-Instruct-v0.1-GGUF\snapshots\731a9fc8f06f5f5e2db8a0cf9d256197eb6e05d1", model_file="mistral-7b-instruct-v0.1.Q4_K_M.gguf", model_type="mistral", gpu_layers=0)
 
     # mistral_prompt = f"<s>[INST] {question} [/INST]"
     # mistral_prompt = f"<s>[INST] You're given a question. The highest marks for the given question is 4. Now just answer the question only. [/INST] question: {question}"
@@ -28,12 +30,10 @@ def mistral_model(question, answer):
     valid_output = False
     while not valid_output:
         res = llm(mistral_prompt)
-        res = json.loads(res)
+        res = json.loads(res) or None
         if "score" in res:
             valid_output = True
             
-
-
     return res["score"]
     # accuracy_score = metrics.compute(references=[answer], predictions=[res], lang="en")
 

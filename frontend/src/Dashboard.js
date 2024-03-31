@@ -9,14 +9,16 @@ const Dashboard = () => {
 
   useEffect(() => {
     const fetchAssessments = async () => {
-      const res = await fetch(
-        `http://localhost:5000/getAssessments/${user.email}`
-      );
-      const data = await res.json();
-      setAssessments(data);
+      if (user) {
+        const res = await fetch(
+          `http://localhost:5000/getAssessments/${user.email}`
+        );
+        const data = await res.json();
+        setAssessments(data);
+      }
     };
     fetchAssessments();
-  }, [user.email]);
+  }, [user]);
 
   const submitForAssessment = async (formId, email, assessmentName) => {
     document.getElementById("resultBtn").disabled = true;
