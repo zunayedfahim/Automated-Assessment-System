@@ -1,13 +1,8 @@
-# Use a pipeline as a high-level helper
 # from transformers import AutoModel, AutoTokenizer, pipeline
-from evaluate import load
 from ctransformers import AutoModelForCausalLM
 import json
 
-metrics = load('bertscore')
-
-
-def mistral_model(question, answer):
+def mistral_model(question, answer, context):
 
     # Set gpu_layers to the number of layers to offload to GPU. Set to 0 if no GPU acceleration is available on your system.
     # llm = AutoModelForCausalLM.from_pretrained("TheBloke/Mistral-7B-v0.1-GGUF", model_file="mistral-7b-v0.1.Q4_K_M.gguf", model_type="mistral", gpu_layers=0)
@@ -25,7 +20,7 @@ def mistral_model(question, answer):
     # mistral_prompt = f"<s>[INST] Question: {question} [/INST]"
     # mistral_prompt = f"<s> Question: {question} Context: {answer}</s> [INST] Answer the given question according to the given context. [/INST]"\
 
-    mistral_prompt = f"[INST]Question: {question} \nAnswer: {answer}.\nYou're given a question and an answer. How much would you mark the answer? 1, 2, 3, or 4? 1 being the lowest and 4 being the highest. Give me the score in JSON object.[/INST]"
+    mistral_prompt = f"[INST]Question: {question} \nAnswer: {answer} \nContext: {context}.\nYou're given a question, an answer and a context. How much would you mark the answer based on the given context? 1, 2, 3, or 4? 1 being the lowest and 4 being the highest. Give me the score in JSON object as score being the key in the object.[/INST]"
 
     valid_output = False
     while not valid_output:
@@ -35,9 +30,6 @@ def mistral_model(question, answer):
             valid_output = True
             
     return res["score"]
-    # accuracy_score = metrics.compute(references=[answer], predictions=[res], lang="en")
-
-    # return accuracy_score
 
 
 

@@ -2,7 +2,15 @@ POST http://localhost:8000/
 content-type: application/json
 
 {
-  "question": "Why is it impossible to measure the absolute magnitude of the enthalpy of an object or a compound?", 
-  "answer": "Enthalpy is how hot or cold something is, and it can be high or low depending on the material. I don't know why you can't just measure it directly."
+  "question": "What is Engineering Economics and Management?", 
+  "answer": "Engineering Economics and Management focuses on interpreting technology led wealth creation dynamics as reoccurring patterns for scaling up invention & innovation art of economic value creation out of ideas with science, engineering and management practices—for endlessly expanding reservoir of wealth from scarce resources."
 }
 
+###
+
+POST http://localhost:8000/insert
+content-type: application/json
+
+{
+  "files": "ch1.pdf,Climate_change_impact_and_disaster_vulne.pdf"
+}

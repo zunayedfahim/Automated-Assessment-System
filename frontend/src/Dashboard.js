@@ -21,7 +21,7 @@ const Dashboard = () => {
   }, [user]);
 
   const submitForAssessment = async (formId, email, assessmentName) => {
-    document.getElementById("resultBtn").disabled = true;
+    document.getElementById(`${assessmentName}-resultBtn`).disabled = true;
     const payload = {
       formId,
       email,
@@ -76,9 +76,22 @@ const Dashboard = () => {
                     <p className="leading-relaxed mb-3">
                       Deadline - {new Date(item.deadline).toDateString()}
                     </p>
+
+                    {/* View Form Button */}
+                    <a
+                      href={item.googleForm}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-blue-500 inline-flex items-center hover:opacity-75"
+                    >
+                      View Google Form
+                    </a>
+                    <br />
+
+                    {/* Generate Result Button */}
                     {item.status === "PENDING" ? (
                       <button
-                        id="resultBtn"
+                        id={`${item.assessmentName}-resultBtn`}
                         onClick={() =>
                           submitForAssessment(
                             item.formId,
@@ -86,7 +99,7 @@ const Dashboard = () => {
                             item.assessmentName
                           )
                         }
-                        className="text-red-500 inline-flex items-center disabled:text-gray-400"
+                        className="text-red-500 inline-flex items-center disabled:text-gray-400 hover:opacity-75"
                       >
                         Generate Result
                         <svg
@@ -107,7 +120,7 @@ const Dashboard = () => {
                         href={item.resultSheet}
                         target="_blank"
                         rel="noreferrer"
-                        className="text-green-500 inline-flex items-center"
+                        className="text-green-500 inline-flex items-center hover:opacity-75"
                       >
                         See Result
                         <svg

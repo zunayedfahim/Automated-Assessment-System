@@ -10,14 +10,26 @@ handler.createAssessment = async (req, res) => {
 
   // Handle the pdf files
   let pdfTexts = [];
+  let files = "";
   for (let i = 0; i < req.files.length; i++) {
     let dataBuffer = fs.readFileSync(req.files[i].path);
+    files += req.files[i].filename + ",";
 
     await pdf(dataBuffer).then(function (data) {
       // PDF text
       pdfTexts.push(data.text);
     });
   }
+
+  const payload = { files };
+
+  await fetch("http://127.0.0.1:8000/insert", {
+    method: "POST",
+    body: JSON.stringify(payload),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
 
   // Handle the google sheets, creates the google form, send mail to the students and returns the google form link
   const googleForm = await getGoogleFormLink(
