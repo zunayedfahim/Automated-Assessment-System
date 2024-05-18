@@ -1,0 +1,45 @@
+#!/bin/bash
+
+# Activate the Python virtual environment
+echo "Activating Python virtual environment..."
+source ai/venv/Scripts/activate
+
+
+
+# Start the FastAPI servers
+echo "Starting FastAPI servers..."
+cd ai
+uvicorn main:app --reload &
+SERVER1_PID=$!
+
+# Start the Milvus servers
+echo "Starting Milvus servers..."
+milvus-server &
+SERVER2_PID=$!
+
+# Start the Node.js backend
+echo "Starting Node.js backend..."
+cd ../backend
+npm run dev &
+NODE_PID=$!
+
+# Start the React frontend
+echo "Starting React frontend..."
+cd ../frontend
+npm start &
+REACT_PID=$!
+cd ..
+
+
+# Function to kill all started processes
+cleanup() {
+  echo "Stopping servers..."
+  kill $SERVER1_PID $SERVER2_PID $NODE_PID $REACT_PID
+  exit 0
+}
+
+# Trap the script termination and call cleanup
+trap cleanup SIGINT SIGTERM
+
+# Wait for the React process to finish
+wait $REACT_PID

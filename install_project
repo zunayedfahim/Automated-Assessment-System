@@ -1,0 +1,59 @@
+#!/bin/bash
+
+# Ensure the script is being run with root privileges
+if [ "$EUID" -ne 0 ]; then
+  echo "Please run as root"
+  exit 1
+fi
+
+# Update package list
+echo "Updating package list..."
+apt-get update
+
+# Install Python, pip, and virtualenv
+echo "Installing Python, pip, and virtualenv..."
+apt-get install -y python3 python3-pip python3-venv
+
+# Create Python virtual environment
+echo "Creating Python virtual environment..."
+cd ai
+python3 -m venv venv2
+
+# Activate virtual environment and install Python packages
+echo "Activating virtual environment and installing Python packages..."
+source venv/Scripts/activate
+pip install -r requirements.txt
+deactivate
+cd ..
+
+
+# Install Node.js and npm
+echo "Installing Node.js and npm..."
+apt-get install -y nodejs npm
+
+# Install React frontend dependencies
+echo "Installing React frontend dependencies..."
+cd frontend
+npm install
+cd ..
+
+# Install Node.js backend dependencies
+echo "Installing Node.js backend dependencies..."
+cd backend
+npm install
+cd ..
+
+# Check if XAMPP is installed
+echo "Checking if XAMPP is installed..."
+if [ ! -d "/opt/lampp" ]; then
+  echo "XAMPP is not installed. Please install XAMPP manually from https://www.apachefriends.org/index.html"
+else
+  echo "XAMPP is installed."
+fi
+
+# Make scripts executable
+# echo "Making scripts executable..."
+# chmod +x cli_project.py
+# chmod +x start_web_project
+
+echo "Installation complete."
