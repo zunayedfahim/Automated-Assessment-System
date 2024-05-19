@@ -116,7 +116,7 @@ def search(query):
         data = [q_embedding],
         anns_field = 'embedding',
         param = {"metric_type": "L2", "parmas": {"nprobe": 2}},
-        limit = 5,
+        limit = 3,
         output_fields = ['sentence']
     )
 

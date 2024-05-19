@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # Ensure the script is being run with root privileges
-if [ "$EUID" -ne 0 ]; then
-  echo "Please run as root"
-  exit 1
-fi
+# if [ "$EUID" -ne 0 ]; then
+#   echo "Please run as root"
+#   exit 1
+# fi
 
 # Update package list
 echo "Updating package list..."
@@ -12,12 +12,12 @@ apt-get update
 
 # Install Python, pip, and virtualenv
 echo "Installing Python, pip, and virtualenv..."
-apt-get install -y python3 python3-pip python3-venv
+apt-get install -y python python-pip python-venv
 
 # Create Python virtual environment
 echo "Creating Python virtual environment..."
 cd ai
-python3 -m venv venv2
+python -m venv venv2
 
 # Activate virtual environment and install Python packages
 echo "Activating virtual environment and installing Python packages..."

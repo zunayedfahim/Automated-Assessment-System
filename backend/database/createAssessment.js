@@ -32,16 +32,18 @@ handler.createAssessment = async (req, res) => {
   });
 
   // Handle the google sheets, creates the google form, send mail to the students and returns the google form link
-  const googleForm = await getGoogleFormLink(
-    googleSheet1,
-    googleSheet2,
-    assessmentName,
-    deadline
-  );
+  const { formLink, formId, spreadsheetId, spreadsheetUrl } =
+    await getGoogleFormLink(
+      email,
+      googleSheet1,
+      googleSheet2,
+      assessmentName,
+      deadline
+    );
 
   // INSERT into DB
   const sql =
-    "INSERT INTO assessments (assessmentName, email, deadline, status, googleSheet1, googleSheet2, googleForm, formId, pdfText) VALUES (?,?,?,?,?,?,?,?,?)";
+    "INSERT INTO assessments (assessmentName, email, deadline, status, googleSheet1, googleSheet2, googleForm, formId, pdfText, resultSheet) VALUES (?,?,?,?,?,?,?,?,?,?)";
   connectDB.query(
     sql,
     [
@@ -51,15 +53,16 @@ handler.createAssessment = async (req, res) => {
       "PENDING",
       googleSheet1,
       googleSheet2,
-      googleForm.formLink,
-      googleForm.formId,
+      formLink,
+      formId,
       // "",
       // "",
       pdfTexts.join("\n###\n"),
+      spreadsheetUrl,
     ],
     (err, result) => {
       if (err) res.status(400).send({ message: err.message });
-      res.status(200).send({ message: "Assessment Created!" });
+      res.status(200).send({ formId: formId });
     }
   );
 };

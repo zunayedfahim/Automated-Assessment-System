@@ -75,7 +75,12 @@ const appendSpreadsheet = async (
   });
 };
 
-handler.getFormResponses = async (formId, assessmentName, email) => {
+handler.getFormResponses = async (
+  formId,
+  assessmentName,
+  email,
+  spreadsheetId
+) => {
   const client = await auth.getClient();
 
   const googleForms = google.forms({ version: "v1", auth: client });
@@ -97,10 +102,10 @@ handler.getFormResponses = async (formId, assessmentName, email) => {
     formId,
   });
 
-  const { spreadsheetId, spreadsheetUrl } = await createSpreadsheet(
-    email,
-    assessmentName
-  );
+  // const { spreadsheetId, spreadsheetUrl } = await createSpreadsheet(
+  //   email,
+  //   assessmentName
+  // );
 
   if (res.data.responses) {
     for (let i = 0; i < res.data.responses.length; i++) {
@@ -150,7 +155,7 @@ handler.getFormResponses = async (formId, assessmentName, email) => {
     }
   }
 
-  return { spreadsheetId, spreadsheetUrl };
+  return { spreadsheetId };
 
   // Object.values(res.data.responses[0].answers)[0].textAnswers.answers[0].value
 };

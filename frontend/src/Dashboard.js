@@ -20,12 +20,18 @@ const Dashboard = () => {
     fetchAssessments();
   }, [user]);
 
-  const submitForAssessment = async (formId, email, assessmentName) => {
+  const submitForAssessment = async (
+    formId,
+    email,
+    assessmentName,
+    resultSheetId
+  ) => {
     document.getElementById(`${assessmentName}-resultBtn`).disabled = true;
     const payload = {
       formId,
       email,
       assessmentName,
+      resultSheetId,
     };
 
     const res = await fetch("http://localhost:5000/markResponses", {
@@ -85,58 +91,71 @@ const Dashboard = () => {
                       className="text-blue-500 inline-flex items-center hover:opacity-75"
                     >
                       View Google Form
+                      <svg
+                        className="w-4 h-4 ml-2"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        fill="none"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <path d="M5 12h14"></path>
+                        <path d="M12 5l7 7-7 7"></path>
+                      </svg>
+                    </a>
+                    <br />
+
+                    {/* View Result Sheet Link */}
+                    <a
+                      href={item.resultSheet}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-green-500 inline-flex items-center hover:opacity-75"
+                    >
+                      View Result Sheet
+                      <svg
+                        className="w-4 h-4 ml-2"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        fill="none"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <path d="M5 12h14"></path>
+                        <path d="M12 5l7 7-7 7"></path>
+                      </svg>
                     </a>
                     <br />
 
                     {/* Generate Result Button */}
-                    {item.status === "PENDING" ? (
-                      <button
-                        id={`${item.assessmentName}-resultBtn`}
-                        onClick={() =>
-                          submitForAssessment(
-                            item.formId,
-                            item.email,
-                            item.assessmentName
-                          )
-                        }
-                        className="text-red-500 inline-flex items-center disabled:text-gray-400 hover:opacity-75"
+                    <button
+                      id={`${item.assessmentName}-resultBtn`}
+                      onClick={() =>
+                        submitForAssessment(
+                          item.formId,
+                          item.email,
+                          item.assessmentName,
+                          item.resultSheetId
+                        )
+                      }
+                      className="text-red-500 inline-flex items-center disabled:text-gray-400 hover:opacity-75"
+                    >
+                      Generate Result
+                      <svg
+                        className="w-4 h-4 ml-2"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        fill="none"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
                       >
-                        Generate Result
-                        <svg
-                          className="w-4 h-4 ml-2"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          fill="none"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        >
-                          <path d="M5 12h14"></path>
-                          <path d="M12 5l7 7-7 7"></path>
-                        </svg>
-                      </button>
-                    ) : (
-                      <a
-                        href={item.resultSheet}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="text-green-500 inline-flex items-center hover:opacity-75"
-                      >
-                        See Result
-                        <svg
-                          className="w-4 h-4 ml-2"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          fill="none"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        >
-                          <path d="M5 12h14"></path>
-                          <path d="M12 5l7 7-7 7"></path>
-                        </svg>
-                      </a>
-                    )}
+                        <path d="M5 12h14"></path>
+                        <path d="M12 5l7 7-7 7"></path>
+                      </svg>
+                    </button>
                   </div>
                 </div>
               );

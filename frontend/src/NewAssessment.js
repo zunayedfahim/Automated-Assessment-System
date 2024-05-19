@@ -37,6 +37,8 @@ const NewAssessment = () => {
     //   console.log(pair[0] + ", " + pair[1]);
     // }
 
+    // console.log(payload.getAll("pdf"));
+
     // const res = await fetch("http://localhost:5000/uploadPdf", {
     //   method: "POST",
     //   cache: "no-cache",

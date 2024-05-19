@@ -14,6 +14,45 @@ const auth = new google.auth.GoogleAuth({
   ],
 });
 
+const createSpreadsheet = async (email, sheetName) => {
+  const client = await auth.getClient();
+
+  const googleSheets = google.sheets({ version: "v4", auth: client });
+  const drive = google.drive({ version: "v3", auth: client });
+
+  const {
+    data: { spreadsheetId, spreadsheetUrl },
+  } = await googleSheets.spreadsheets.create({
+    resource: {
+      properties: {
+        title: `${sheetName} Result`,
+      },
+    },
+  });
+
+  const res = await drive.permissions.create({
+    fileId: spreadsheetId,
+    emailMessage: `This is your ${sheetName} Result`,
+    resource: {
+      role: "writer",
+      type: "user",
+      emailAddress: email,
+    },
+  });
+
+  const sheet = await googleSheets.spreadsheets.values.append({
+    auth,
+    spreadsheetId,
+    range: "Sheet1!A:D",
+    valueInputOption: "USER_ENTERED",
+    resource: {
+      values: [["Name", "ID", "Email", "Marks"]],
+    },
+  });
+
+  return { spreadsheetId, spreadsheetUrl };
+};
+
 // Create Google Form
 const createGoogleForm = async (sheetData, assessmentName) => {
   const client = await auth.getClient();
@@ -193,6 +232,7 @@ const sendMail = async (emails, formLink, assessmentName, deadline) => {
 // sendMail();
 
 handler.getGoogleFormLink = async (
+  email,
   googleSheet1,
   googleSheet2,
   assessmentName,
@@ -216,13 +256,24 @@ handler.getGoogleFormLink = async (
     assessmentName,
     deadline
   );
+
+  // Create the Result Sheet
+  const { spreadsheetId, spreadsheetUrl } = await createSpreadsheet(
+    email,
+    assessmentName
+  );
   // const mailSent = await sendMail(
   //   sheetData.emails,
   //   formRes.formLink,
   //   assessmentName,
   //   deadline
   // );
-  return { formLink: formRes.formLink, formId: formRes.formId };
+  return {
+    formLink: formRes.formLink,
+    formId: formRes.formId,
+    spreadsheetId,
+    spreadsheetUrl,
+  };
 };
 
 module.exports = handler;
