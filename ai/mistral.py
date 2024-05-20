@@ -2,7 +2,7 @@
 from ctransformers import AutoModelForCausalLM
 import json
 
-def mistral_model(question, answer, context):
+def mistral_model(question, answer, context=""):
 
     # Set gpu_layers to the number of layers to offload to GPU. Set to 0 if no GPU acceleration is available on your system.
     # llm = AutoModelForCausalLM.from_pretrained("TheBloke/Mistral-7B-v0.1-GGUF", model_file="mistral-7b-v0.1.Q4_K_M.gguf", model_type="mistral", gpu_layers=0)
@@ -20,12 +20,13 @@ def mistral_model(question, answer, context):
     # mistral_prompt = f"<s>[INST] Question: {question} [/INST]"
     # mistral_prompt = f"<s> Question: {question} Context: {answer}</s> [INST] Answer the given question according to the given context. [/INST]"\
 
-    mistral_prompt = f"[INST]Question: {question} \nAnswer: {answer} \nContext: {context}.\nYou're given a question, an answer and a context. How much would you mark the answer based on the given context? 1, 2, 3, or 4? 1 being the lowest and 4 being the highest. Give me the score in JSON object as score being the key in the object.[/INST]"
+    mistral_prompt = f"[INST]Question: {question} \nAnswer: {answer} \nContext: {context}.\nYou're given a question, an answer and a context. How much would you mark the answer based on the given context? 1, 2, 3, or 4? 1 being the lowest and 4 being the highest. Give me the score in JSON format as score being the key in the object.[/INST]"
 
     valid_output = False
     while not valid_output:
         res = llm(mistral_prompt)
         res = json.loads(res) or None
+        print(res)
         if "score" in res:
             valid_output = True
             

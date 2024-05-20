@@ -13,9 +13,9 @@ uvicorn main:app --reload &
 SERVER1_PID=$!
 
 # Start the Milvus servers
-echo "Starting Milvus servers..."
-milvus-server &
-SERVER2_PID=$!
+# echo "Starting Milvus servers..."
+# milvus-server &
+# SERVER2_PID=$!
 
 # Start the Node.js backend
 echo "Starting Node.js backend..."

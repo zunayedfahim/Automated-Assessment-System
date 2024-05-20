@@ -1,0 +1,79 @@
+#!/usr/bin/env node
+
+const fs = require("fs");
+const path = require("path");
+
+function getPDFFiles(directory) {
+  return fs
+    .readdirSync(directory)
+    .filter((file) => file.endsWith(".pdf"))
+    .map((file) => path.join(directory, file));
+}
+
+async function sendFilesToBackend(
+  assessmentName,
+  rubricsSheet,
+  studentSheet,
+  files
+) {
+  let payload = new FormData();
+  payload.append("email", "fahimzunayed@gmail.com");
+  payload.append("assessmentName", assessmentName);
+  payload.append("googleSheet1", studentSheet);
+  payload.append("googleSheet2", rubricsSheet);
+  payload.append("deadline", "2024-02-29 15:42:06");
+
+  files.forEach((file) => {
+    payload.append("pdf", fs.createReadStream(file));
+  });
+
+  const res = await fetch("http://localhost:5000/createAssessment", {
+    method: "POST",
+    cache: "no-cache",
+    body: payload,
+    // headers: {
+    //   "Content-Type": "application/json",
+    // },
+  });
+
+  if (res.ok) {
+    const data = await res.json();
+    console.log(data);
+  }
+}
+
+async function main() {
+  const args = process.argv.slice(2);
+
+  if (args.length !== 4) {
+    console.error(
+      "Usage: ./cli_project {assessment_name} {rubric_sheet_link} {student_sheet_link} {path to directory containing files for RAG}"
+    );
+    process.exit(1);
+  }
+
+  const [assessmentName, rubricsSheet, studentSheet, directory] = args;
+
+  if (!fs.existsSync(directory)) {
+    console.error(`The directory ${directory} does not exist.`);
+    process.exit(1);
+  }
+
+  const pdfFiles = getPDFFiles(directory);
+
+  if (pdfFiles.length === 0) {
+    console.log("No PDF files found in the directory.");
+    process.exit(0);
+  }
+
+  await sendFilesToBackend(
+    assessmentName,
+    rubricsSheet,
+    studentSheet,
+    pdfFiles
+  );
+}
+
+main();
+
+// Input: ./cli_project "Math 2" "https://docs.google.com/spreadsheets/d/1K_TleWr3lIN2AxodRGd_jxF748oqPfxp_bSpONQ2u9U/edit#gid=0" "https://docs.google.com/spreadsheets/d/18l3z_n03uKZgIU0pcNv-9mjm-ErwPCqLbgzcn1DtOvw/edit#gid=0" "C:\Users\User\Downloads\pdf"

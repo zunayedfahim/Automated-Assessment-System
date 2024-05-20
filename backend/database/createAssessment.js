@@ -21,15 +21,15 @@ handler.createAssessment = async (req, res) => {
     });
   }
 
-  const payload = { files };
+  // const payload = { files };
 
-  await fetch("http://127.0.0.1:8000/insert", {
-    method: "POST",
-    body: JSON.stringify(payload),
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+  // await fetch("http://127.0.0.1:8000/insert", {
+  //   method: "POST",
+  //   body: JSON.stringify(payload),
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //   },
+  // });
 
   // Handle the google sheets, creates the google form, send mail to the students and returns the google form link
   const { formLink, formId, spreadsheetId, spreadsheetUrl } =
@@ -43,7 +43,7 @@ handler.createAssessment = async (req, res) => {
 
   // INSERT into DB
   const sql =
-    "INSERT INTO assessments (assessmentName, email, deadline, status, googleSheet1, googleSheet2, googleForm, formId, pdfText, resultSheet) VALUES (?,?,?,?,?,?,?,?,?,?)";
+    "INSERT INTO assessments (assessmentName, email, deadline, status, googleSheet1, googleSheet2, googleForm, formId, pdfText, resultSheet, resultSheetId) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
   connectDB.query(
     sql,
     [
@@ -59,10 +59,11 @@ handler.createAssessment = async (req, res) => {
       // "",
       pdfTexts.join("\n###\n"),
       spreadsheetUrl,
+      spreadsheetId,
     ],
     (err, result) => {
       if (err) res.status(400).send({ message: err.message });
-      res.status(200).send({ formId: formId });
+      res.status(200).send({ resultSheetUrl: spreadsheetUrl });
     }
   );
 };

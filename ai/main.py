@@ -35,10 +35,10 @@ app.add_middleware(
 
 @app.post("/")
 async def read_root(item: Item):
-    context = search(item.question)
-    print(context)
-    return mistral_model(item.question, item.answer, context)
-
+    # context = search(item.question)
+    # print(context)
+    # return mistral_model(item.question, item.answer, context)
+    return mistral_model(item.question, item.answer)
 
 # To insert data to milvus lite vector database
 @app.post("/insert")
