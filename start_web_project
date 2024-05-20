@@ -4,8 +4,6 @@
 echo "Activating Python virtual environment..."
 source ai/venv/Scripts/activate
 
-
-
 # Start the FastAPI servers
 echo "Starting FastAPI servers..."
 cd ai
