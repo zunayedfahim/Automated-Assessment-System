@@ -29,6 +29,7 @@ const NewAssessment = () => {
     payload.append("deadline", inputFields.deadline);
 
     for (let i = 0; i < inputFields.pdf.length; i++) {
+      console.log(inputFields.pdf[i]);
       payload.append("pdf", inputFields.pdf[i]);
     }
 
@@ -36,20 +37,7 @@ const NewAssessment = () => {
     // for (var pair of payload.entries()) {
     //   console.log(pair[0] + ", " + pair[1]);
     // }
-
     // console.log(payload.getAll("pdf"));
-
-    // const res = await fetch("http://localhost:5000/uploadPdf", {
-    //   method: "POST",
-    //   cache: "no-cache",
-    //   body: payload,
-    //   // headers: {
-    //   //   "Content-Type": "multipart/form-data",
-    //   // },
-    // });
-
-    // const data = await res.json();
-    // console.log(data.message);
 
     const res = await fetch("http://localhost:5000/createAssessment", {
       method: "POST",
@@ -132,6 +120,7 @@ const NewAssessment = () => {
           name="pdf"
           accept=".pdf"
           onChange={(e) => {
+            console.log(e.target.files);
             setInputFields({ ...inputFields, pdf: e.target.files });
           }}
           className="inputBox"

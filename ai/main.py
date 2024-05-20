@@ -13,6 +13,7 @@ class Item(BaseModel):
 
 class Item2(BaseModel):
     files: Union[str, None] = None
+    directory: Union[str, None] = None
 
 app = FastAPI()
 
@@ -35,13 +36,13 @@ app.add_middleware(
 
 @app.post("/")
 async def read_root(item: Item):
-    # context = search(item.question)
-    # print(context)
-    # return mistral_model(item.question, item.answer, context)
-    return mistral_model(item.question, item.answer)
+    context = search(item.question)
+    print(context)
+    return mistral_model(item.question, item.answer, context)
+    # return mistral_model(item.question, item.answer)
 
 # To insert data to milvus lite vector database
 @app.post("/insert")
 async def insert(item: Item2):
     files = item.files.split(",")
-    return insert_data(files)
+    return insert_data(files, item.directory)

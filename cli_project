@@ -14,26 +14,27 @@ async function sendFilesToBackend(
   assessmentName,
   rubricsSheet,
   studentSheet,
-  files
+  files,
+  directory
 ) {
-  let payload = new FormData();
+  const payload = new FormData();
   payload.append("email", "fahimzunayed@gmail.com");
   payload.append("assessmentName", assessmentName);
   payload.append("googleSheet1", studentSheet);
   payload.append("googleSheet2", rubricsSheet);
   payload.append("deadline", "2024-02-29 15:42:06");
+  payload.append("directory", directory);
 
   files.forEach((file) => {
     payload.append("pdf", fs.createReadStream(file));
   });
 
+  // console.log(payload.getAll("pdf"));
+
   const res = await fetch("http://localhost:5000/createAssessment", {
     method: "POST",
     cache: "no-cache",
     body: payload,
-    // headers: {
-    //   "Content-Type": "application/json",
-    // },
   });
 
   if (res.ok) {
@@ -70,10 +71,11 @@ async function main() {
     assessmentName,
     rubricsSheet,
     studentSheet,
-    pdfFiles
+    pdfFiles,
+    directory
   );
 }
 
 main();
 
-// Input: ./cli_project "Math 2" "https://docs.google.com/spreadsheets/d/1K_TleWr3lIN2AxodRGd_jxF748oqPfxp_bSpONQ2u9U/edit#gid=0" "https://docs.google.com/spreadsheets/d/18l3z_n03uKZgIU0pcNv-9mjm-ErwPCqLbgzcn1DtOvw/edit#gid=0" "C:\Users\User\Downloads\pdf"
+// Input: ./cli_project "Math 4" "https://docs.google.com/spreadsheets/d/1K_TleWr3lIN2AxodRGd_jxF748oqPfxp_bSpONQ2u9U/edit#gid=0" "https://docs.google.com/spreadsheets/d/18l3z_n03uKZgIU0pcNv-9mjm-ErwPCqLbgzcn1DtOvw/edit#gid=0" "C:\Users\User\Downloads\pdf"

@@ -3,10 +3,17 @@ const { getGoogleFormLink } = require("./getGoogleFormLink");
 const fs = require("fs");
 const pdf = require("pdf-parse");
 const handler = {};
+const path = require("path");
 
 handler.createAssessment = async (req, res) => {
-  const { assessmentName, email, deadline, googleSheet1, googleSheet2 } =
-    req.body;
+  const {
+    assessmentName,
+    email,
+    deadline,
+    googleSheet1,
+    googleSheet2,
+    directory,
+  } = req.body;
 
   // Handle the pdf files
   let pdfTexts = [];
@@ -21,15 +28,29 @@ handler.createAssessment = async (req, res) => {
     });
   }
 
-  // const payload = { files };
+  let payload = {};
 
-  // await fetch("http://127.0.0.1:8000/insert", {
-  //   method: "POST",
-  //   body: JSON.stringify(payload),
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //   },
-  // });
+  if (files === "") {
+    const allFiles = fs
+      .readdirSync(directory)
+      .filter((file) => file.endsWith(".pdf"))
+      .map((file) => path.join(directory, file));
+
+    files = allFiles.join(",");
+    payload = { directory };
+  }
+
+  console.log(files);
+
+  payload = { ...payload, files };
+
+  await fetch("http://127.0.0.1:8000/insert", {
+    method: "POST",
+    body: JSON.stringify(payload),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
 
   // Handle the google sheets, creates the google form, send mail to the students and returns the google form link
   const { formLink, formId, spreadsheetId, spreadsheetUrl } =

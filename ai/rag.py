@@ -17,12 +17,11 @@ def extract_text_from_pdf(pdf_path):
             
     return text
 
-def read_pdfs_from_folder(files):
+def read_pdfs_from_folder(files, folder_path='D:\\Programming\\Projects\\Automated-Assessment-System\\backend\\pdfFiles'):
     """
     Read all PDF files from a folder and extract text content.
     """
 
-    folder_path = 'D:\\Programming\\Projects\\Automated-Assessment-System\\backend\\pdfFiles'
     if not os.path.isdir(folder_path):
         print(f"Error: {folder_path} is not a valid directory.")
         return
@@ -81,10 +80,10 @@ def create_collection():
 
 transformer = SentenceTransformer('all-MiniLM-L12-v2')
 
-def insert_data(files):
+def insert_data(files, folder_path):
 
     # extract text from pdf file
-    pdf_text = read_pdfs_from_folder(files)
+    pdf_text = read_pdfs_from_folder(files, folder_path)
 
     sentences = pdf_text.split(".")
 

@@ -1,3 +1,5 @@
+#!/bin/bash
+
 echo "Stopping milvus..."
 PROCESS=$(ps -e | grep milvus | grep -v grep | awk '{print $1}')
 if [ -z "$PROCESS" ]; then

@@ -9,13 +9,13 @@ source ai/venv/Scripts/activate
 # Start the FastAPI servers
 echo "Starting FastAPI servers..."
 cd ai
-uvicorn main:app --reload &
+python3 -m uvicorn main:app --port 5000 &
 SERVER1_PID=$!
 
 # Start the Milvus servers
-# echo "Starting Milvus servers..."
-# milvus-server &
-# SERVER2_PID=$!
+echo "Starting Milvus servers..."
+milvus-server &
+SERVER2_PID=$!
 
 # Start the Node.js backend
 echo "Starting Node.js backend..."

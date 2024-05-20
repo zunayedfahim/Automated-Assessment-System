@@ -12,17 +12,17 @@ apt-get update
 
 # Install Python, pip, and virtualenv
 echo "Installing Python, pip, and virtualenv..."
-apt-get install -y python python-pip python-venv
+apt-get install -y python3 python3-pip python3-venv
 
 # Create Python virtual environment
 echo "Creating Python virtual environment..."
 cd ai
-python -m venv venv2
+python3 -m venv venv
 
 # Activate virtual environment and install Python packages
 echo "Activating virtual environment and installing Python packages..."
-source venv/Scripts/activate
-pip install -r requirements.txt
+source venv/bin/activate
+pip3 install -r requirements.txt
 deactivate
 cd ..
 
